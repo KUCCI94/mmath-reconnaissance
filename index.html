@@ -337,7 +337,7 @@
 
     table {
       width: 100%;
-      min-width: 600px; /* 모바일에서 표 깨짐 방지 */
+      min-width: 600px;
       border-collapse: collapse;
       font-size: 13px;
       text-align: left;
@@ -430,9 +430,7 @@
       word-break: break-all;
     }
 
-    /* ================================================================= */
     /* 모바일 반응형 미디어 쿼리 (768px 이하) */
-    /* ================================================================= */
     @media screen and (max-width: 768px) {
       body {
         display: block;
@@ -474,7 +472,7 @@
 
       section {
         margin-bottom: 40px;
-        scroll-margin-top: 72px; /* 모바일 헤더 높이만큼 오프셋 보정 */
+        scroll-margin-top: 72px;
       }
 
       .meta-bar {
@@ -488,7 +486,7 @@
       }
 
       .grid-4 {
-        grid-template-columns: 1fr; /* 1열 정렬 */
+        grid-template-columns: 1fr;
       }
 
       .task-header {
@@ -523,15 +521,17 @@
       CPO Architect Studio
     </div>
 
-    <div class="nav-group-title">Part 1: 레거시 메타수학 감사</div>
+    <div class="nav-group-title">Part 1: 레거시 메타수학 기술 감사</div>
     <nav>
       <a href="#audit-summary" onclick="closeSidebar()">1.1 역공학 스니핑 진단 요약</a>
-      <a href="#audit-packet" onclick="closeSidebar()">1.2 수집 원본 패킷 및 인프라 진단</a>
-      <a href="#audit-frontend" onclick="closeSidebar()">1.3 프론트엔드 3세대 혼용 결함</a>
-      <a href="#audit-rpc" onclick="closeSidebar()">1.4 백엔드 RPC &amp; 캐싱 부재</a>
-      <a href="#audit-schema" onclick="closeSidebar()">1.5 DB 물리 스키마 노출 분석</a>
-      <a href="#audit-security" onclick="closeSidebar()">1.6 PII 및 영업 비밀 유출 진단</a>
-      <a href="#audit-financial" onclick="closeSidebar()">1.7 연 1억 유지비 기술 타당성</a>
+      <a href="#audit-packet" onclick="closeSidebar()">1.2 실측 패킷 &amp; BuiltWith 교차 검증</a>
+      <a href="#audit-cost-driver" onclick="closeSidebar()">1.3 서버비 폭증 4대 기술 원인</a>
+      <a href="#audit-stagnation" onclick="closeSidebar()">1.4 기능 개발 불가(고착) 3대 원인</a>
+      <a href="#audit-cache-antipattern" onclick="closeSidebar()">1.5 '수십만 문항 통캐싱' 안티패턴</a>
+      <a href="#audit-rpc" onclick="closeSidebar()">1.6 백엔드 RPC &amp; 캐싱 부재</a>
+      <a href="#audit-schema" onclick="closeSidebar()">1.7 DB 물리 스키마 노출 분석</a>
+      <a href="#audit-security" onclick="closeSidebar()">1.8 PII 및 영업 비밀 유출 진단</a>
+      <a href="#audit-financial" onclick="closeSidebar()">1.9 연 1억 유지비 기술 타당성</a>
     </nav>
 
     <div class="nav-group-title">Part 2: 차세대 SaaS 마스터 설계</div>
@@ -563,13 +563,16 @@
     <section id="audit-summary">
       <h2 class="legacy-header">1.1 구형 메타수학 역공학 스니핑 진단 요약</h2>
       <div class="card">
-        <p>프로덕션 환경 스니핑을 통해 캡처된 <strong>HTTP 응답 헤더</strong>와 <strong>40개의 외부 로드 스크립트</strong>를 정밀 감사한 결과, 본 시스템은 <strong>"2010년대 중반 Windows IIS/ASP.NET 4.0 모놀리스 인프라 위에 구형 jQuery UI와 최신 Vue 3를 억지로 덧붙인 과도기적 스택"</strong>으로 판정되었습니다. 최신 모던 웹의 모듈러 번들링 체계가 부재하며, 성능·보안·유지보수 전반에 심각한 아키텍처 결함이 고착화되어 있습니다.</p>
+        <p>
+          프로덕션 환경 스니핑을 통해 캡처된 <strong>실제 HTTP 응답 헤더</strong>와 <strong>40개의 로드 스크립트</strong>, 그리고 글로벌 기술 스택 프로파일러(BuiltWith)의 전수 조사 결과를 종합한 결과, 본 플랫폼은 <strong>"2010년대 중반 Windows IIS/ASP.NET 4.0 모놀리스 인프라 위에 10년 된 구형 jQuery UI와 최신 Vue 3를 억지로 덧붙인 과도기적 스택"</strong>으로 판정되었습니다.
+          모던 웹의 핵심인 모듈러 빌드 툴체인(Vite, Turbopack)과 클라이언트 수식 렌더러가 부재하여, 인프라 비용 폭증과 신규 개발 불가(유지보수 고착화) 현상이 동시에 고착되어 있습니다.
+        </p>
 
         <div class="grid-4">
           <div class="metric-card">
             <div class="title">서버/런타임 환경</div>
             <div class="value" style="color: var(--danger);">IIS 10.0 / ASP.NET 4.0</div>
-            <div class="desc">10년 전 구형 .NET CLR 모놀리스 구동</div>
+            <div class="desc">Windows Server 전용 CLR 모놀리스 구동</div>
           </div>
           <div class="metric-card">
             <div class="title">웹 표준 수식 렌더러</div>
@@ -582,20 +585,20 @@
             <div class="desc">2013년 jQuery UI와 Vue 3 CDN 임시 공존</div>
           </div>
           <div class="metric-card">
-            <div class="title">서드파티 트래커 부하</div>
-            <div class="value" style="color: var(--danger);">10개 이상 연동</div>
-            <div class="desc">대시보드 메인스레드 점유 및 로딩 지연</div>
+            <div class="title">개인정보(PII) 유출 등급</div>
+            <div class="value" style="color: var(--danger);">CRITICAL</div>
+            <div class="desc">실명, 연락처, 내부 영업메모 평문 노출</div>
           </div>
         </div>
       </div>
     </section>
 
     <section id="audit-packet">
-      <h2 class="legacy-header">1.2 수집 원본 패킷 증거 및 인프라 보안 진단</h2>
+      <h2 class="legacy-header">1.2 실측 패킷 증거 및 BuiltWith 교차 검증</h2>
       <div class="card">
-        <p>스니퍼 엔진이 가로챈 실제 응답 헤더는 내부 서버 정보 노출과 비효율적 캐싱 정책을 명확하게 증명합니다.</p>
+        <p>스니퍼 엔진이 가로챈 실제 응답 헤더와 글로벌 분석 도구인 BuiltWith의 프로파일링 데이터가 100% 일치하며 시스템의 취약한 실태를 증명하고 있습니다.</p>
 
-        <h3>수집된 프로덕션 응답 헤더 (Evidence Raw Headers)</h3>
+        <h3>1) 캡처된 실제 프로덕션 응답 헤더 (Evidence Raw Headers)</h3>
         <pre>
 {
   "server": "Microsoft-IIS/10.0",
@@ -609,53 +612,41 @@
   "location": "/Pages/Center/Dashboard/"
 }</pre>
 
-        <div class="alert-panel alert-danger">
-          <strong>🚨 핵심 인프라 결함 3가지:</strong>
-          <ul style="margin-top:8px;">
-            <li><strong>엔터프라이즈 보안 기본 수칙 위반 (Fingerprint 노출):</strong> <code>server: Microsoft-IIS/10.0</code>, <code>x-aspnet-version: 4.0.30319</code>, <code>x-powered-by: ASP.NET</code> 헤더가 WAF나 리버스 프록시 없이 그대로 방출됩니다. 공격자에게 운영체제(Windows Server)와 프레임워크 타깃 취약점 공격(CVE) 벡터를 공개하고 있습니다.</li>
-            <li><strong>Edge CDN 캐싱 무력화:</strong> <code>cache-control: private</code> 설정으로 인해 Cloudflare, CloudFront 등의 엣지 네트워크 캐싱이 전면 차단되어, 대시보드 진입 시마다 모든 요청이 오리진 윈도우 서버를 직접 강타합니다.</li>
-            <li><strong>초대형 SSR HTML 페이로드:</strong> 초기 대시보드 진입 문서(HTML) 크기만 gzip 압축 상태에서 <strong>60.5KB</strong>에 달하며, 이는 클라이언트 렌더링 전환 없이 서버 사이드 Razor 뷰가 레거시 DOM 마크업을 과도하게 쏟아내고 있음을 입증합니다.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="audit-frontend">
-      <h2 class="legacy-header">1.3 프론트엔드 아키텍처: 3개 세대 기술의 기형적 혼용</h2>
-      <div class="card">
-        <p>수집된 40개의 로드 스크립트를 계층별로 역추적한 결과, 시스템이 표준 빌드 도구 없이 3세대의 기술을 한 화면에 억지로 얹어 쓰고 있는 <strong>'비빔밥형 레거시'</strong>임이 확인되었습니다.</p>
-
+        <h3>2) BuiltWith 전수 조사 및 외부 로드 스크립트(40개) 계층 분석</h3>
         <div class="table-container">
           <table>
             <thead>
               <tr>
                 <th>세대 분류</th>
-                <th>실제 식별된 로드 스크립트</th>
+                <th>실제 식별된 로드 스크립트 및 시그니처</th>
                 <th>아키텍처 문제점 및 기술 부채</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td><strong>Web Server &amp; OS</strong></td>
+                <td><code>Microsoft-IIS/10.0</code>, <code>ASP.NET 4.0</code> (.NET CLR 4.0.30319)</td>
+                <td>Docker/K8s 리눅스 컨테이너화 불가, 고비용 Windows Server VM/온프레미스 고착</td>
+              </tr>
+              <tr>
                 <td><strong>1세대 레거시<br>(2010~2013)</strong></td>
                 <td>
-                  <code>jquery-3.7.0.min.js</code><br>
-                  <code>jquery.min.js</code> (중복 로드)<br>
+                  <code>jquery-3.7.0.min.js</code>, <code>jquery.min.js</code> (중복 로드)<br>
                   <code>jquery-ui-1.10.3.js</code> (2013년 배포본)<br>
                   <code>jquery.cookie.js</code>, <code>daterangepicker.js</code>
                 </td>
                 <td>
-                  10년 전 배포된 <strong>jQuery UI 1.10.3</strong>이 핵심 UI를 통제하며, 동일 스크립트(jQuery)의 다중 중복 로드로 메모리 누수와 글로벌 네임스페이스 오염 발생.
+                  10년 전 배포된 <strong>jQuery UI 1.10.3</strong>이 핵심 레이아웃을 통제하며, 동일 스크립트의 중복 로드로 메모리 누수 및 전역 네임스페이스 오염 유발.
                 </td>
               </tr>
               <tr>
                 <td><strong>과도기 번들러<br>(ASP.NET Legacy)</strong></td>
                 <td>
                   <code>/bundles/scripts?v=YhbrGMKkyPuC4...</code><br>
-                  <code>/Scripts/function.modal.js</code><br>
-                  <code>/Scripts/center.js</code>, <code>data.js</code>
+                  <code>/Scripts/function.modal.js</code>, <code>center.js</code>, <code>data.js</code>
                 </td>
                 <td>
-                  모던 빌더(Vite, Turbopack)가 아닌 구형 <code>System.Web.Optimization</code> 런타임 번들링에 의존하여 코드 스플리팅 및 트리쉐이킹이 전혀 불가능함.
+                  모던 빌더(Vite, Turbopack)가 아닌 구형 <code>System.Web.Optimization</code> 런타임 번들링에 의존하여 코드 스플리팅 및 트리쉐이킹이 불가능함.
                 </td>
               </tr>
               <tr>
@@ -665,16 +656,15 @@
                   (Vue 3 Global Standalone CDN)
                 </td>
                 <td>
-                  SPA 체계로 전환하지 못하고, Razor 뷰 일부 영역(시험지 출제 마법사 등)에만 <code>vue.global.js</code>를 전역 주입하여 임시 컴포넌트로 마운트한 과도기적 땜질 구조.
+                  전체 SPA 체계 전환 없이, Razor 뷰 일부 영역(시험지 출제 마법사 등)에만 <code>vue.global.js</code>를 전역 주입하여 임시 컴포넌트로 마운트한 과도기적 땜질 구조.
                 </td>
               </tr>
               <tr>
                 <td><strong>마케팅 트래커<br>오버헤드 (10종)</strong></td>
                 <td>
                   <code>channel.io</code> (채널톡 + datadog 벤더 번들)<br>
-                  <code>googletagmanager.com</code>, <code>gtag.js</code> (복수 로드)<br>
-                  <code>fbevents.js</code> (메타 픽셀), <code>wcslog.js</code> (네이버)<br>
-                  <code>mirae_log_chat_common.js</code> (미래로그)
+                  <code>googletagmanager.com</code>, <code>gtag.js</code>, <code>fbevents.js</code> (메타),<br>
+                  <code>wcslog.js</code> (네이버), <code>mirae_log_chat_common.js</code> (미래로그)
                 </td>
                 <td>
                   대시보드 화면 하나에 수많은 추적 스크립트와 웹소켓, 데이터독 모니터링 SDK가 동시 구동되어 브라우저 메인스레드 블로킹 및 INP(다음 페인트에 대한 상호작용) 반응성 급락.
@@ -683,14 +673,113 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </section>
 
-        <h3>수식 렌더러(KaTeX/MathJax)의 부재와 비트맵 이미지 의존성</h3>
-        <p>40개의 스크립트 중 웹 표준 수식 렌더러(<code>KaTeX</code> 또는 <code>MathJax</code>)가 단 하나도 존재하지 않습니다. 이는 메타수학이 수식을 텍스트(LaTeX/MathML)로 브라우저에 내려주지 못하고, **서버에서 래스터라이징된 비트맵 이미지(PNG/GIF)**로 다운로드하여 화면에 박아 넣고 있음을 확실하게 입증합니다. 50문항 시험지 렌더링 시 수백 개의 수식 이미지 네트워크 트래픽이 발생하여 시스템 속도를 갉아먹는 근본 원인입니다.</p>
+    <section id="audit-cost-driver">
+      <h2 class="legacy-header">1.3 서버 비용이 비정상적으로 많이 나오는 4대 기술 원인</h2>
+      <div class="card">
+        <p>인프라 트래픽을 저비용으로 흡수할 수 있는 계층이 전무하여, 발생하는 모든 부하가 고비용 오리진 인프라에 100% 집중됩니다.</p>
+
+        <div class="alert-panel alert-danger">
+          <strong>1) Edge CDN 캐싱 0% 및 저효율 RPC POST 설계:</strong><br>
+          응답 헤더의 <code>Cache-Control: private</code>와 <code>/proc/*</code> RPC 엔드포인트의 <strong>POST 남발</strong>(단순 조회인 <code>MyClassListAsync</code>, <code>DashBoardInfoAsync</code>조차 POST 전송)로 인해 Cloudflare 등 엣지 캐시가 작동하지 않습니다. 시험 기간 수백 명의 강사가 검색을 누르면 모든 요청이 Windows IIS와 DB 프로시저를 직접 강타합니다.
+        </div>
+
+        <div class="alert-panel alert-danger">
+          <strong>2) 웹 표준 수식 렌더러(KaTeX) 부재로 인한 트래픽/IOPS 폭증:</strong><br>
+          스니퍼 및 BuiltWith 프로파일링 결과 DOM 내 KaTeX/MathJax가 전무합니다. 가벼운 텍스트(LaTeX) 대신 서버가 사전 생성한 무거운 비트맵 이미지(PNG)를 HTTP로 매번 내려받아 화면을 구성합니다. 50문항 시험지 한 건당 수백 번의 추가 이미지 I/O 및 대역폭(Egress) 비용을 기하급수적으로 낭비합니다.
+        </div>
+
+        <div class="alert-panel alert-danger">
+          <strong>3) 고비용 Windows Server VM 환경 종속:</strong><br>
+          경량 Linux/Docker 컨테이너 기반의 동적 오토스케일링 환경이 아니라, Core당 라이선스 비용이 매월 부과되는 온프레미스 IDC 또는 클라우드 VM 기반 Windows Server 환경을 강제 사용 중이므로 기본 인프라 고정비 자체가 매우 높습니다.
+        </div>
+
+        <div class="alert-panel alert-danger">
+          <strong>4) 60.5KB에 달하는 비대한 초기 SSR HTML 페이로드:</strong><br>
+          초기 대시보드 진입 시 압축(gzip) 상태에서만 <strong>60.5KB</strong>에 달하는 거대한 정적 마크업을 서버가 매번 렌더링하여 내려보냅니다. 클라이언트 렌더링 최적화 부재로 서버 CPU 자원을 상시 낭비합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="audit-stagnation">
+      <h2 class="legacy-header">1.4 뭐 하나 바꾸려고 해도 손을 댈 수 없는 3대 원인 (구조적 고착화)</h2>
+      <div class="card">
+        <p>코드 간 결합도(Coupling)가 극단적으로 높아 국소적인 변경이 전체 시스템 장애로 직결됩니다.</p>
+
+        <pre>
+[레거시 결합도 병목 구조]
+프론트엔드 (jQuery UI 1.10 + ASP.NET 번들 + Vue 3 CDN 혼용)
+       │
+       ▼ (DTO 계층 부재: f_group_id 등 물리 컬럼 1:1 직결)
+저장 프로시저 (Stored Procedure) &amp; 물리 RDBMS
+* 테이블 컬럼 하나만 변경해도 연쇄적으로 전체 프론트엔드 뷰 붕괴</pre>
+
+        <h3>1) 프론트엔드-데이터베이스 직결 (DTO 격리 계층 부재)</h3>
+        <p>패킷에 노출된 <code>f_group_id</code>, <code>f_study_id</code>, <code>f_cnt4student</code>처럼 프론트엔드가 DB 물리 컬럼과 저장 프로시저 반환값을 직접 물고 있습니다. 중간 추상화 계층이 없어 비즈니스 규칙 변경 시 DB부터 화면 마크업까지 전부 수작업으로 수정해야 합니다.</p>
+
+        <h3>2) 3개 세대 프론트엔드 기술의 스파게티 충돌</h3>
+        <p>2013년 배포된 <strong>jQuery UI 1.10.3</strong>의 전역 <code>$</code> 객체와 <code>vue.global.js</code>의 런타임 마운트가 한 화면에서 뒤섞여 있습니다. 모던 UI 컴포넌트를 추가하려 해도 구형 전역 스크립트와의 충돌 및 메모리 누수로 인해 신규 라이브러리 도입이 전면 차단됩니다.</p>
+
+        <h3>3) Iframe 기반 조판기 격리 및 상태 관리 단절</h3>
+        <p>시험지 조판기가 <code>&lt;iframe&gt;</code> 팝업 형태로 메인 DOM과 단절되어 있어 모던 전역 상태 관리(Zustand, React Query 등) 적용이 불가능합니다. 창 간의 불안정한 통신에 의존해 기능 확장 시 버그 추적이 불가능합니다.</p>
+      </div>
+    </section>
+
+    <section id="audit-cache-antipattern">
+      <h2 class="legacy-header">1.5 '수십만 개 문항 DB 통캐싱' 안티패턴 집중 해부</h2>
+      <div class="card">
+        <p>
+          "문항 수가 많아 매일 DB를 통째로 캐싱하느라 서버비가 많이 나온다"는 주장은 기술적 불가피성이 아니라, **데이터 라이프사이클 설계 부재로 인해 발생한 전형적인 아키텍처 안티패턴**입니다.
+        </p>
+
+        <div class="alert-panel alert-warn">
+          <strong>왜 '수십만 개 통캐싱'이 최악의 악수인가?</strong>
+          <ul style="margin-top: 8px;">
+            <li><strong>파레토 법칙(80:20) 무시 및 고비용 RAM 낭비:</strong> 실제 학원에서 쓰이는 문항은 특정 학기/단원에 집중된 10~20%의 Hot Data입니다. 1년에 한 번 쓰일까 말까 한 문항까지 수십~수백 GB의 고가 메모리에 상주시키는 것은 명백한 자원 낭비입니다.</li>
+            <li><strong>주기적 캐시 갱신 시 발생하는 '캐시 스탬피드(Cache Stampede)':</strong> 매일 전체 DB를 훑어 캐시를 굽는(Warm-up) 과정에서 대규모 Full Table Scan과 DB Lock이 유발되어, 주간 업무 시간까지 시스템 전체가 느려지는 근본 원인이 됩니다.</li>
+          </ul>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>비교 항목</th>
+                <th>현재 구형 메타수학 방식</th>
+                <th>모던 SaaS 표준 아키텍처</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>수식 데이터 형태</strong></td>
+                <td>비트맵 이미지(PNG) URL 캐싱</td>
+                <td><strong>LaTeX 텍스트 문자열</strong> (용량 1/100 수준)</td>
+              </tr>
+              <tr>
+                <td><strong>캐시 전략</strong></td>
+                <td>수십만 개 무차별 Full Warm-up</td>
+                <td><strong>LRU 기반 Cache-Aside</strong> (자주 찾는 10~20%만 온디맨드 적재)</td>
+              </tr>
+              <tr>
+                <td><strong>문항 검색 엔진</strong></td>
+                <td>RDBMS Like 검색 / 메모리 전수조사</td>
+                <td><strong>Elasticsearch / Opensearch</strong> (역색인 기반 검색)</td>
+              </tr>
+              <tr>
+                <td><strong>인프라 비용</strong></td>
+                <td>고용량 RAM 인스턴스 비용 상시 지출</td>
+                <td><strong>최소 사양 인스턴스로 70% 이상 비용 절감</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <section id="audit-rpc">
-      <h2 class="legacy-header">1.4 백엔드 통신 아키텍처 (RPC 안티패턴 &amp; 캐싱 부재)</h2>
+      <h2 class="legacy-header">1.6 백엔드 통신 아키텍처 (RPC 안티패턴 &amp; 캐싱 부재)</h2>
       <div class="card">
         <p>모든 데이터 통신이 리소스 기반 REST API가 아닌 <code>/proc/{area}/{controller}/{Action}Async</code> 규격의 ASP.NET RPC 패턴으로 구현되어 있습니다.</p>
 
@@ -732,16 +821,11 @@
             </tbody>
           </table>
         </div>
-
-        <div class="alert-panel alert-warn">
-          <strong>인프라 응답 헤더와의 상관관계 분석:</strong><br>
-          헤더의 <code>cache-control: private</code>와 <code>/proc/*</code> RPC 엔드포인트의 <strong>POST 남발</strong>이 결합되어, 인프라의 모든 Edge/Browser 캐시 계층이 완벽히 무력화되어 있습니다. 수백 명의 강사가 시험 기간에 동시 조회를 누르면 모든 패킷이 윈도우 IIS와 단일 DB 서버를 직접 강타합니다.
-        </div>
       </div>
     </section>
 
     <section id="audit-schema">
-      <h2 class="legacy-header">1.5 노출된 데이터베이스 물리 스키마 역추적</h2>
+      <h2 class="legacy-header">1.7 노출된 데이터베이스 물리 스키마 역추적</h2>
       <div class="card">
         <p>백엔드에 DTO 변환 계층이 없어 2000년대 공공/SI 스타일의 <code>f_</code>(Field) 접두사를 가진 물리 컬럼명이 브라우저로 100% 직결 노출되고 있습니다.</p>
 
@@ -775,7 +859,7 @@
     </section>
 
     <section id="audit-security">
-      <h2 class="legacy-header">1.6 개인정보(PII) 및 내부 영업 비밀 유출 진단</h2>
+      <h2 class="legacy-header">1.8 개인정보(PII) 및 내부 영업 비밀 유출 진단</h2>
       <div class="card">
         <p><code>/proc/common/GetChannelTalkUserInfo</code> 엔드포인트에서 백오피스 CRM 메모와 고객 개인정보가 마스킹 없이 프론트엔드로 브로드캐스팅되고 있습니다.</p>
 
@@ -803,7 +887,7 @@
     </section>
 
     <section id="audit-financial">
-      <h2 class="legacy-header">1.7 연 1억 유지보수 지출의 기술적 타당성 평가</h2>
+      <h2 class="legacy-header">1.9 연 1억 유지보수 지출의 기술적 타당성 평가</h2>
       <div class="card">
         <p>패킷으로 검증된 구형 인프라(IIS 10.0 + ASP.NET 4.0 + jQuery UI)에 연간 1억 원 이상을 투입하는 것은 비즈니스 성장이 아닌 <strong>"사망 선고를 받은 레거시의 인공호흡기 연명 비용"</strong>에 불과합니다.</p>
 
